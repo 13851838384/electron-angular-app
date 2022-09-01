@@ -1,12 +1,23 @@
 {
   "name": "electron-angular-app",
   "version": "0.0.0",
+  "main": "app.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "electron .",
+    "build": "ng build --base-href && electron-builder",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "electron:generate-icons": "electron-icon-builder --input=./src/assets/logo.png --output=build --flatten"
+  },
+  "build": {
+    "productName": "益善口腔",
+    "appId": "org.simulatedgreg.electron-vue",
+    "directories": {
+      "output": "build"
+    }
   },
   "private": true,
   "dependencies": {
@@ -18,6 +29,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "electron-squirrel-startup": "^1.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -26,8 +38,16 @@
     "@angular-devkit/build-angular": "~12.2.0",
     "@angular/cli": "~12.2.0",
     "@angular/compiler-cli": "~12.2.0",
+    "@electron-forge/cli": "^6.0.0-beta.65",
+    "@electron-forge/maker-deb": "^6.0.0-beta.65",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
+    "@electron-forge/maker-zip": "^6.0.0-beta.65",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
+    "electron": "^20.1.1",
+    "electron-builder": "^23.3.3",
+    "electron-icon-builder": "^2.0.1",
     "jasmine-core": "~3.8.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -35,5 +55,32 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "typescript": "~4.3.5"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_angular_app"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
